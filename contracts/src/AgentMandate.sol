@@ -60,6 +60,10 @@ contract AgentMandate {
         _;
     }
 
+    function transferOwnership(address newOwner) external onlyOwner {
+        owner = newOwner;
+    }
+
     function setMandate(MandateData calldata mandate) external onlyOwner {
         _mandate = mandate;
         emit MandateUpdated(mandate.agent);

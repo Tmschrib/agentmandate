@@ -2,15 +2,15 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
+import { base } from "wagmi/chains";
 import { injected } from "wagmi/connectors";
 import { ReactNode, useState, useEffect } from "react";
 
 const config = createConfig({
-  chains: [baseSepolia],
+  chains: [base],
   connectors: [injected()],
   transports: {
-    [baseSepolia.id]: http("https://sepolia.base.org"),
+    [base.id]: http("http://127.0.0.1:8545"),
   },
 });
 

@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
             type: "EXACT_INPUT",
             amount: rawAmount,
             tokenIn: tokenIn.address,
-            tokenInChainId: 84532,
+            tokenInChainId: 8453,
             tokenOut: tokenOut.address,
-            tokenOutChainId: 84532,
+            tokenOutChainId: 8453,
             swapper: CONTRACT_ADDRESS,
           }),
         }
