@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useWriteContract, useAccount } from "wagmi";
-import { parseUnits } from "viem";
+import { useState, useEffect } from "react";
+import { useWriteContract, useAccount, useReadContract } from "wagmi";
+import { parseUnits, formatUnits } from "viem";
 import { AGENT_MANDATE_ABI, AGENT_MANDATE_ADDRESS } from "@/lib/contract";
 import { TOKENS } from "@/lib/tokens";
 
@@ -10,10 +10,34 @@ export default function MandateSetup() {
   const { address } = useAccount();
   const { writeContractAsync, isPending } = useWriteContract();
 
+  const { data: mandate } = useReadContract({
+    address: AGENT_MANDATE_ADDRESS,
+    abi: AGENT_MANDATE_ABI,
+    functionName: "getMandate",
+  });
+
+  const m = mandate as {
+    agent: string;
+    maxAmountPerSwap: bigint;
+    maxDailyVolumeUSDC: bigint;
+    maxSlippageBps: bigint;
+  } | undefined;
+
   const [agentAddress, setAgentAddress] = useState("");
   const [maxPerSwap, setMaxPerSwap] = useState("50");
   const [dailyLimit, setDailyLimit] = useState("200");
   const [slippageBps, setSlippageBps] = useState("100");
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (m && !loaded && m.agent !== "0x0000000000000000000000000000000000000000") {
+      setAgentAddress(m.agent);
+      setMaxPerSwap(formatUnits(m.maxAmountPerSwap, 6));
+      setDailyLimit(formatUnits(m.maxDailyVolumeUSDC, 6));
+      setSlippageBps(Number(m.maxSlippageBps).toString());
+      setLoaded(true);
+    }
+  }, [m, loaded]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
