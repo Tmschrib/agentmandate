@@ -1,0 +1,14 @@
+export const TOKENS: Record<string, { address: `0x${string}`; decimals: number; symbol: string }> = {
+  USDC: {
+    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    decimals: 6,
+    symbol: "USDC",
+  },
+  WETH: {
+    address: "0x4200000000000000000000000000000000000006",
+    decimals: 18,
+    symbol: "WETH",
+  },
+};
+
+export const CHAIN_ID = 8453;
