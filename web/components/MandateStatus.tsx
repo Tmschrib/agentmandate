@@ -99,73 +99,73 @@ export default function MandateStatus() {
   };
 
   return (
-    <div className="border border-gray-700 rounded-lg p-4 bg-gray-900">
-      <h2 className="text-lg font-bold mb-3">Mandate Status</h2>
+    <div className="border border-gray-200 rounded-2xl p-5 bg-white">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-gray-900">Live status</h2>
+        {m && (
+          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border ${
+            m.active ? "border-green-300 text-green-700" : "border-red-300 text-red-700"
+          }`}>
+            <span className={`w-2 h-2 rounded-full ${m.active ? "bg-green-500" : "bg-red-500"}`} />
+            {m.active ? "Active" : "Paused"}
+          </span>
+        )}
+      </div>
 
       {!m ? (
         <p className="text-gray-400 text-sm">No mandate set</p>
       ) : (
-        <div className="space-y-3 text-sm">
-          <div className="flex items-center gap-2">
-            <span
-              className={`inline-block w-2 h-2 rounded-full ${
-                m.active ? "bg-green-400" : "bg-red-400"
-              }`}
-            />
-            <span>{m.active ? "Active" : "Paused"}</span>
-          </div>
-
+        <div className="space-y-4 text-sm">
           <div>
-            <span className="text-gray-400">Agent:</span>{" "}
-            <span className="font-mono text-xs">
-              {m.agent.slice(0, 6)}...{m.agent.slice(-4)}
-            </span>
-          </div>
-
-          <div>
-            <span className="text-gray-400">Daily USDC Volume:</span>
-            <div className="mt-1 w-full bg-gray-700 rounded-full h-3">
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-gray-500">Today&apos;s volume</span>
+              <span className="font-bold text-gray-900">
+                {dailyVolNum.toFixed(0)} / {dailyLimitNum.toFixed(0)} USDC
+              </span>
+            </div>
+            <div className="w-full bg-gray-100 rounded-full h-2.5">
               <div
-                className="bg-blue-500 h-3 rounded-full transition-all"
+                className="bg-green-700 h-2.5 rounded-full transition-all"
                 style={{ width: `${Math.min(pct, 100)}%` }}
               />
             </div>
-            <span className="text-xs text-gray-400">
-              {dailyVolNum.toFixed(2)} / {dailyLimitNum.toFixed(2)} USDC
-            </span>
           </div>
 
-          <div>
-            <span className="text-gray-400">Max Per Swap:</span>{" "}
-            {Number(formatUnits(m.maxAmountPerSwap, 6)).toFixed(2)} USDC
-          </div>
-
-          <div>
-            <span className="text-gray-400">Contract Balances:</span>
-            <div className="ml-2 text-xs font-mono">
-              USDC:{" "}
-              {usdcBalance
-                ? Number(formatUnits(usdcBalance as bigint, 6)).toFixed(2)
-                : "0.00"}
-              <br />
-              WETH:{" "}
-              {wethBalance
-                ? Number(formatUnits(wethBalance as bigint, 18)).toFixed(6)
-                : "0.000000"}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="border border-gray-200 rounded-xl p-3">
+              <span className="text-gray-500 text-xs">Contract balance</span>
+              <div className="text-lg font-bold text-gray-900 mt-1">
+                {usdcBalance
+                  ? Number(formatUnits(usdcBalance as bigint, 6)).toFixed(0)
+                  : "0"}{" "}
+                <span className="text-sm font-normal text-gray-500">USDC</span>
+              </div>
+            </div>
+            <div className="border border-gray-200 rounded-xl p-3">
+              <span className="text-gray-500 text-xs">+ WETH</span>
+              <div className="text-lg font-bold text-gray-900 mt-1">
+                {wethBalance
+                  ? Number(formatUnits(wethBalance as bigint, 18)).toFixed(3)
+                  : "0.000"}{" "}
+                <span className="text-sm font-normal text-gray-500">WETH</span>
+              </div>
             </div>
           </div>
 
           {isOwner && (
-            <button
-              onClick={m.active ? handlePause : handleResume}
-              className={`w-full py-1.5 rounded text-sm font-medium ${
-                m.active
-                  ? "bg-red-600 hover:bg-red-700"
-                  : "bg-green-600 hover:bg-green-700"
-              }`}
-            >
-              {m.active ? "Pause Mandate" : "Resume Mandate"}
-            </button>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={m.active ? handlePause : handleResume}
+                className="py-2.5 rounded-xl text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-50"
+              >
+                {m.active ? "Pause" : "Resume"}
+              </button>
+              <button
+                className="py-2.5 rounded-xl text-sm font-medium border-2 border-gray-800 text-gray-800 hover:bg-gray-50"
+              >
+                Withdraw
+              </button>
+            </div>
           )}
         </div>
       )}

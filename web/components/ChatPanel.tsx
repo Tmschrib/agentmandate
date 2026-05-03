@@ -137,12 +137,19 @@ export default function ChatPanel({
   };
 
   return (
-    <div className="border border-gray-700 rounded-lg p-4 bg-gray-900 flex flex-col h-full">
-      <h2 className="text-lg font-bold mb-3">Agent Chat</h2>
+    <div className="border border-gray-200 rounded-2xl p-5 bg-white flex flex-col h-full">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-gray-900">Chat with agent</h2>
+        {m?.agent && (
+          <span className="text-sm text-gray-400">
+            Signed by {m.agent.slice(0, 4)}...{m.agent.slice(-3)}
+          </span>
+        )}
+      </div>
 
       {isWrongAccount && (
-        <div className="mb-3 p-2 bg-yellow-900/50 border border-yellow-600 rounded text-xs text-yellow-200">
-          ⚠ Wrong account connected. Connected:{" "}
+        <div className="mb-3 p-2 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+          Wrong account connected. Connected:{" "}
           <span className="font-mono">{address?.slice(0, 6)}...{address?.slice(-4)}</span>.
           Expected agent:{" "}
           <span className="font-mono">{m?.agent.slice(0, 6)}...{m?.agent.slice(-4)}</span>.
@@ -150,20 +157,20 @@ export default function ChatPanel({
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto space-y-2 mb-3 min-h-[200px] max-h-[400px]">
+      <div className="flex-1 overflow-y-auto space-y-2 mb-4 min-h-[200px] max-h-[400px]">
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`text-sm p-2 rounded ${
+            className={`text-sm p-2.5 rounded-xl ${
               msg.role === "user"
-                ? "bg-blue-900/40 ml-8"
+                ? "bg-gray-100 ml-8 text-gray-900"
                 : msg.status === "success"
-                ? "bg-green-900/40 border border-green-700"
+                ? "bg-green-50 border border-green-200 text-green-900 mr-8"
                 : msg.status === "error"
-                ? "bg-red-900/40 border border-red-700"
+                ? "bg-red-50 border border-red-200 text-red-800 mr-8"
                 : msg.status === "pending"
-                ? "bg-purple-900/40 border border-purple-700"
-                : "bg-gray-800 mr-8"
+                ? "bg-yellow-50 border border-yellow-200 text-yellow-800 mr-8"
+                : "bg-gray-50 mr-8 text-gray-700"
             }`}
           >
             {msg.text}
@@ -172,9 +179,9 @@ export default function ChatPanel({
                 href={`https://basescan.org/tx/${msg.txHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block text-xs text-blue-400 mt-1 hover:underline"
+                className="block text-xs text-blue-600 mt-1 hover:underline font-mono"
               >
-                View on Basescan
+                tx: {msg.txHash.slice(0, 8)}...{msg.txHash.slice(-4)} &rarr;
               </a>
             )}
           </div>
@@ -187,14 +194,14 @@ export default function ChatPanel({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="e.g. Swap 30 USDC for WETH"
+          placeholder="Type instruction..."
           disabled={busy || !!isWrongAccount}
-          className="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm disabled:opacity-50"
+          className="flex-1 px-3 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 disabled:opacity-50"
         />
         <button
           onClick={handleSend}
           disabled={busy || !!isWrongAccount || !input.trim()}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 rounded text-sm font-medium"
+          className="px-5 py-2.5 border border-gray-300 hover:bg-gray-50 disabled:opacity-40 rounded-xl text-sm font-medium text-gray-700"
         >
           Send
         </button>

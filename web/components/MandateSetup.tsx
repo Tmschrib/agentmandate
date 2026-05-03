@@ -39,71 +39,68 @@ export default function MandateSetup() {
   };
 
   return (
-    <div className="border border-gray-700 rounded-lg p-4 bg-gray-900">
-      <h2 className="text-lg font-bold mb-3">Mandate Setup</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
+    <div className="border border-gray-200 rounded-2xl p-5 bg-white">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-gray-900">Mandate setup</h2>
+        <span className="text-sm text-gray-400">Owner only</span>
+      </div>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm text-gray-400">Agent Address</label>
+          <label className="block text-sm text-gray-500 mb-1">Agent address</label>
           <input
             type="text"
             value={agentAddress}
             onChange={(e) => setAgentAddress(e.target.value)}
             placeholder="0x..."
-            className="w-full mt-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm"
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm text-gray-400">
-              Max Per Swap (USDC)
-            </label>
-            <input
-              type="number"
-              value={maxPerSwap}
-              onChange={(e) => setMaxPerSwap(e.target.value)}
-              className="w-full mt-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm"
-            />
-          </div>
-          <div>
-            <label className="block text-sm text-gray-400">
-              Daily Limit (USDC)
-            </label>
-            <input
-              type="number"
-              value={dailyLimit}
-              onChange={(e) => setDailyLimit(e.target.value)}
-              className="w-full mt-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm"
-            />
-          </div>
-        </div>
-        <div>
-          <label className="block text-sm text-gray-400">
-            Slippage (bps, advisory)
-          </label>
-          <input
-            type="number"
-            value={slippageBps}
-            onChange={(e) => setSlippageBps(e.target.value)}
-            className="w-full mt-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded text-sm"
+            className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-mono text-gray-900"
           />
         </div>
         <div>
-          <label className="block text-sm text-gray-400 mb-1">
-            Allowed Tokens
-          </label>
-          <div className="flex gap-3 text-sm">
-            <label className="flex items-center gap-1">
-              <input type="checkbox" checked disabled /> USDC
-            </label>
-            <label className="flex items-center gap-1">
-              <input type="checkbox" checked disabled /> WETH
-            </label>
+          <label className="block text-sm text-gray-500 mb-2">Allowed tokens</label>
+          <div className="flex gap-2">
+            <span className="px-3 py-1 border border-green-300 text-green-700 rounded-full text-sm font-medium">USDC</span>
+            <span className="px-3 py-1 border border-green-300 text-green-700 rounded-full text-sm font-medium">WETH</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">Max / swap</label>
+            <div className="text-lg font-bold text-gray-900">
+              <input
+                type="number"
+                value={maxPerSwap}
+                onChange={(e) => setMaxPerSwap(e.target.value)}
+                className="w-20 bg-transparent text-lg font-bold text-gray-900 outline-none"
+              /> <span className="text-gray-500 font-normal text-sm">USDC</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm text-gray-500 mb-1">Daily limit</label>
+            <div className="text-lg font-bold text-gray-900">
+              <input
+                type="number"
+                value={dailyLimit}
+                onChange={(e) => setDailyLimit(e.target.value)}
+                className="w-20 bg-transparent text-lg font-bold text-gray-900 outline-none"
+              /> <span className="text-gray-500 font-normal text-sm">USDC</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm text-gray-500 mb-1">Max slippage</label>
+          <div className="text-lg font-bold text-gray-900">
+            <input
+              type="number"
+              value={slippageBps}
+              onChange={(e) => setSlippageBps(e.target.value)}
+              className="w-16 bg-transparent text-lg font-bold text-gray-900 outline-none"
+            /><span className="text-gray-500 font-normal text-sm">%</span>
           </div>
         </div>
         <button
           type="submit"
           disabled={isPending || !address}
-          className="w-full py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 rounded font-medium text-sm"
+          className="w-full py-2.5 bg-gray-900 hover:bg-gray-800 disabled:bg-gray-300 text-white rounded-lg font-medium text-sm"
         >
           {isPending ? "Saving..." : "Save Mandate"}
         </button>

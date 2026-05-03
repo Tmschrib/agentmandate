@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const { message } = await req.json();
 
     const response = await anthropic.messages.create({
-      model: "claude-sonnet-4-5-20250514",
+      model: "claude-sonnet-4-6",
       max_tokens: 512,
       system: SYSTEM_PROMPT,
       tools: TOOLS,
@@ -119,9 +119,9 @@ export async function POST(req: NextRequest) {
             type: "EXACT_INPUT",
             amount: rawAmount,
             tokenIn: tokenIn.address,
-            tokenInChainId: 8453,
+            tokenInChainId: 84532,
             tokenOut: tokenOut.address,
-            tokenOutChainId: 8453,
+            tokenOutChainId: 84532,
             swapper: CONTRACT_ADDRESS,
           }),
         }

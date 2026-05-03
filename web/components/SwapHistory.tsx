@@ -88,32 +88,45 @@ export default function SwapHistory({
     .slice(0, 10);
 
   return (
-    <div className="border border-gray-700 rounded-lg p-4 bg-gray-900">
-      <h2 className="text-lg font-bold mb-3">Swap History</h2>
+    <div className="border border-gray-200 rounded-2xl p-5 bg-white">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-lg font-bold text-gray-900">Onchain history</h2>
+        <span className="text-sm text-gray-400">From events</span>
+      </div>
       {all.length === 0 ? (
         <p className="text-gray-400 text-sm">No swaps yet</p>
       ) : (
-        <div className="space-y-2 max-h-64 overflow-y-auto">
+        <div className="space-y-2 max-h-72 overflow-y-auto">
           {all.map((entry) =>
             entry.type === "swap" ? (
               <div
                 key={entry.data.id}
-                className="flex items-center gap-2 text-xs bg-gray-800 rounded p-2"
+                className="flex items-start gap-3 text-sm bg-green-50 rounded-xl p-3"
               >
-                <span className="text-green-400 font-bold">&#10003;</span>
-                <span>
-                  {entry.data.amountIn} {getTokenSymbol(entry.data.tokenIn)}{" "}
-                  &rarr; {entry.data.amountOut}{" "}
-                  {getTokenSymbol(entry.data.tokenOut)}
-                </span>
+                <span className="text-green-600 font-bold mt-0.5">&#10003;</span>
+                <div>
+                  <span className="font-medium text-gray-900">
+                    {entry.data.amountIn} {getTokenSymbol(entry.data.tokenIn)}{" "}
+                    &rarr; {entry.data.amountOut}{" "}
+                    {getTokenSymbol(entry.data.tokenOut)}
+                  </span>
+                  <div className="text-xs text-gray-400 mt-0.5">
+                    {new Date(entry.data.timestamp).toLocaleTimeString()}
+                  </div>
+                </div>
               </div>
             ) : (
               <div
                 key={entry.data.id}
-                className="flex items-center gap-2 text-xs bg-gray-800 rounded p-2"
+                className="flex items-start gap-3 text-sm bg-red-50 rounded-xl p-3"
               >
-                <span className="text-red-400 font-bold">&#10007;</span>
-                <span className="text-red-300">{entry.data.errorName}</span>
+                <span className="text-red-500 font-bold mt-0.5">&#10007;</span>
+                <div>
+                  <span className="font-medium text-gray-900">{entry.data.errorName}</span>
+                  <div className="text-xs text-red-400 mt-0.5">
+                    {new Date(entry.data.timestamp).toLocaleTimeString()}
+                  </div>
+                </div>
               </div>
             )
           )}
